@@ -3,8 +3,8 @@
 
 #include "LoginGameMode.h"
 #include "GameBase/HUD/Login/LoginHUD.h"
-#include "Player/Pawn/Login/LoginPawn.h"
-#include "Player/Controller/Login/LoginPlayerController.h"
+#include "Gameplay/Pawn/Login/LoginPawn.h"
+#include "Gameplay/Controller/Login/LoginPlayerController.h"
 
 ALoginGameMode::ALoginGameMode()
 {

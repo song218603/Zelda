@@ -4,8 +4,8 @@
 #include "LobbyGameMode.h"
 
 #include "GameBase/HUD/Lobby/LobbyHUD.h"
-#include "Player/Controller/Lobby/LobbyPlayerController.h"
-#include "Player/Pawn/Lobby/LobbyPawn.h"
+#include "Gameplay/Controller/Lobby/LobbyPlayerController.h"
+#include "Gameplay/Pawn/Lobby/LobbyPawn.h"
 
 ALobbyGameMode::ALobbyGameMode()
 {
