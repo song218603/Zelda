@@ -25,6 +25,12 @@ void AZeldaCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+// void AZeldaCharacterBase::AnimSignal(int32 InSignal)
+// {
+// 	ICombatInterface::AnimSignal(InSignal);
+// 	// K2_AnimSignal(InSignal);
+// }
+
 void AZeldaCharacterBase::OnRep_ArmedChanged()
 {
 }

@@ -29,6 +29,10 @@ public:
 	FORCEINLINE FZeldaCharacterAnimTable GetAnimTable() const { return AnimTable; }
 	FORCEINLINE int32 GetID() const { return ID; }
 	
+	// virtual void AnimSignal(int32 InSignal) override;
+	// UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, DisplayName = "AnimSignal", Category = "Zelda|Anim")
+	// void K2_AnimSignal(int32 InSignal);
+	
 protected:
 	UPROPERTY(ReplicatedUsing = OnRep_ArmedChanged, EditDefaultsOnly, Category = "Zelda|Character|State")
 	bool bArmed;
@@ -45,5 +49,5 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void SwitchArmedStateOnServer(bool bInArmed);
 	
-	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
