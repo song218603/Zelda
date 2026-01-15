@@ -2,7 +2,9 @@
 
 
 #include "ZeldaCharacterBase.h"
-
+#include "GameBase/GameState/ZeldaGameState.h"
+#include "Gameplay/Animation/Instance/Core/ZeldaAnimInstanceBase.h"
+#include "Components/SkeletalMeshComponent.h"
 
 AZeldaCharacterBase::AZeldaCharacterBase() : bArmed(false), ID(INDEX_NONE)
 {
@@ -13,6 +15,17 @@ void AZeldaCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (GetWorld())
+	{
+		
+		// if (!HasAuthority())
+		// {
+		if (UZeldaAnimInstanceBase* InAnimInstance = Cast<UZeldaAnimInstanceBase>(GetMesh()->GetAnimInstance()))
+		{
+			InAnimInstance->InitAnimInstance(this);
+		}
+		// }
+	}
 }
 
 void AZeldaCharacterBase::Tick(float DeltaTime)
@@ -24,12 +37,6 @@ void AZeldaCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInput
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
-
-// void AZeldaCharacterBase::AnimSignal(int32 InSignal)
-// {
-// 	ICombatInterface::AnimSignal(InSignal);
-// 	// K2_AnimSignal(InSignal);
-// }
 
 void AZeldaCharacterBase::OnRep_ArmedChanged()
 {

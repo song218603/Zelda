@@ -16,13 +16,6 @@ class ZELDA_API AZeldaGameState : public AGameStateBase
 public:
 	AZeldaGameState();
 	
-	FZeldaCharacterAnimTable* GetAnimTable(uint32 AnimID);
-	
-	TArray<FZeldaCharacterAnimTable*> GetAnimTables();
 	
 protected:
-	UPROPERTY()
-	UDataTable* CharacterAnimDataTablePtr;
-	
-	TArray<FZeldaCharacterAnimTable*> CharacterAnimDataTables;
 };

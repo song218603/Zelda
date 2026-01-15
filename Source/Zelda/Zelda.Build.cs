@@ -24,7 +24,8 @@ public class Zelda : ModuleRules
 			"Json",
 			"JsonUtilities",
 			"AnimGraphRuntime",
-			"Combat"
+			"Combat",
+			"AdvancedAnimation"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

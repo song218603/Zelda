@@ -4,7 +4,7 @@
 #include "ZeldaPlayerAnimInstance.h"
 #include "Gameplay/Character/ZeldaPlayerCharacter.h"
 
-UZeldaPlayerAnimInstance::UZeldaPlayerAnimInstance() : MovementState(EPlayerMovementState::Standing)
+UZeldaPlayerAnimInstance::UZeldaPlayerAnimInstance() : MovementState(EPlayerMovementState::Default)
 {
 	bArmed = false;
 }

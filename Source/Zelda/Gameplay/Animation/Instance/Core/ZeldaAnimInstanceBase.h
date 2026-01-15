@@ -31,7 +31,36 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|AnimAttribute")
 	bool bArmed;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|AnimAttribute|FootIK")
+	bool bFootIK;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|AnimAttribute|FootIK")
+	int32 FootIKID;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|AnimAttribute|FootIK")
+	FName LeftBoneName;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|AnimAttribute|FootIK")
+	FName RightBoneName;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|AnimAttribute|FootIK")
+	TArray<FName> BoneNames;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|AnimAttribute|FootIK")
+	float LeftOffset;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|AnimAttribute|FootIK")
+	float RightOffset;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|AnimAttribute|FootIK")
+	float ButtZOffset;
+	
 	UZeldaAnimInstanceBase();
+	
+	virtual void InitAnimInstance(ACharacter* InCharacter);
+	
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	float GetFootIKOffset(const FName& BoneName);
 	
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;

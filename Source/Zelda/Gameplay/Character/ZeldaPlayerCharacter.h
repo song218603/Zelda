@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Core/ZeldaCharacterBase.h"
+#include "Gameplay/Component/Camera/ZeldaCameraComponent.h"
+#include "Gameplay/Component/Weapon/ZeldaWeapon.h"
 #include "Gameplay/Core/ZeldaCharacterState.h"
 #include "ZeldaPlayerCharacter.generated.h"
 
@@ -11,6 +13,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
 struct FInputActionValue;
+class UZeldaSwimmingComponent;
 
 enum class EPlayerAttack : uint8
 {
@@ -24,42 +27,42 @@ class ZELDA_API AZeldaPlayerCharacter : public AZeldaCharacterBase
 	GENERATED_BODY()
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zelda|Player|Components", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
+	TObjectPtr<USpringArmComponent> CameraBoom;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zelda|Player|Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
+	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zelda|Player|Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UZeldaCameraComponent> CameraComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zelda|Player|Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UZeldaSwimmingComponent> SwimmingComponent;
 	
 protected:
+	// InputAction
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* JumpAction;
-
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* MoveAction;
-
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* LookAction;
-
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* MouseLookAction;
-	
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* NormalAttackAction;
-	
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
 	UInputAction* HeavyAttackAction;
+	UPROPERTY(EditAnywhere, Category="Zelda|Player|Input")
+	UInputAction* ArmedAction;
 	
 	UPROPERTY(EditAnywhere, Category="Zelda|Player|Movement")
 	EPlayerMovementState MovementState;
-	
-	// 攻击动画蒙太奇
-	UPROPERTY(EditAnywhere, Category = "Zelda|Player|Combat")
-	UAnimMontage* NormalAttackMontage;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|Player|Combat")
 	bool bIsAttacking;
 	
 	// 连招重置的时间间隔
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, Category = "Zelda|Player|Combat")
 	float ComboResetTime = 1.5f;
 	
 	TArray<EPlayerAttack> AttackSequence;	// 根据不同的攻击序列来触发不同的 Combo
@@ -67,15 +70,20 @@ protected:
 	// 定时器句柄
 	FTimerHandle TimerHandle_ResetCombo;
 	
-
-public:
-	AZeldaPlayerCharacter();
-
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// Weapon
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|Player|Weapon")
+	TArray<TSubclassOf<class AZeldaWeapon>> StartingWeaponClasses;
 	
-protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Zelda|Player|Weapon")
+	TArray<AZeldaWeapon*> HeldWeapons;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Zelda|Player|Weapon")
+	int32 CurrentWeaponIndex = -1;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Zelda|Player|Weapon")
+	AZeldaWeapon* ActiveWeapon;
+	
+
 	virtual void BeginPlay() override;
 	
 	void Move(const FInputActionValue& Value);
@@ -85,20 +93,31 @@ protected:
 	void NormalAttack();
 	
 	void HeavyAttack();
-
+	
+	void SwitchArmed();
+	
+	void PickUp();
+	
 public:
+	AZeldaPlayerCharacter();
+
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	virtual void OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode) override;
+	
+	// InputAction
 	UFUNCTION(BlueprintCallable, Category="Zelda|Player|Input")
 	virtual void DoMove(float Right, float Forward);
-	
 	UFUNCTION(BlueprintCallable, Category="Zelda|Player|Input")
 	virtual void DoLook(float Yaw, float Pitch);
-	
 	UFUNCTION(BlueprintCallable, Category="Zelda|Player|Input")
 	virtual void DoJumpStart();
-	
 	UFUNCTION(BlueprintCallable, Category="Zelda|Player|Input")
 	virtual void DoJumpEnd();
 	
+	// Attack
 	UFUNCTION(BlueprintCallable, Category = "Zelda|Player|Combat")
 	void ResetAttack();
 	
@@ -111,16 +130,9 @@ public:
 	
 	FORCEINLINE EPlayerMovementState GetMovementState() const { return MovementState; }
 	
-	// 切换状态
-	void SwitchArmedState();
-	
 	void SetMovementState(EPlayerMovementState NewState);
 	
 	void ResetAttackSequence();
 	
-	void ArmedChanged();
-	
-	// 网络同步
-	// UFUNCTION() 父类写过子类就不能写了
-	virtual void OnRep_ArmedChanged();
+	void UpdateCharacterWeaponState();
 };

@@ -15,8 +15,5 @@ struct FZeldaCharacterAnimTable : public FTableRowBase
 	FZeldaCharacterAnimTable();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Zelda|Player|AnimAttribute")
-	int32 ID;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Zelda|Player|AnimAttribute")
 	UAnimMontage* Montage;
 };

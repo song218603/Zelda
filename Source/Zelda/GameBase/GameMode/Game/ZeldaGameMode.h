@@ -8,7 +8,7 @@
 
 
 UCLASS()
-class ZELDA_API AZeldaGameMode : public AGameMode
+class ZELDA_API AZeldaGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	

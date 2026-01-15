@@ -8,9 +8,7 @@
 UENUM(BlueprintType)
 enum class EPlayerMovementState : uint8
 {
-	Standing		UMETA(DisplayName = "Standing"),
-	Crouching		UMETA(DisplayName = "Crouching"),
-	Proning			UMETA(DisplayName = "Proning"),
+	Default			UMETA(DisplayName = "Default"),
 	Climbing		UMETA(DisplayName = "Climbing"),
 	Swimming		UMETA(DisplayName = "Swimming")
 };

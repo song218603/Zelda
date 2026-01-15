@@ -4,6 +4,7 @@
 #include "ZeldaGameInstance.h"
 #include "HttpModule.h"
 #include "Http.h"
+#include "AdvancedAnimation/BPInterface/AdvancedAnimationBPLibrary.h"
 
 
 void UZeldaGameInstance::Init()
@@ -26,6 +27,7 @@ void UZeldaGameInstance::Shutdown()
 	Super::Shutdown();
 	
 	// TODO
+	UAdvancedAnimationBPLibrary::ClearAdvancedAnimSystem();
 }
 
 void UZeldaGameInstance::Login(FString InUsername, FString InPassword)

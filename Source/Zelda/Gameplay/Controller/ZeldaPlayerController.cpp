@@ -20,13 +20,11 @@ void AZeldaPlayerController::BeginPlay()
 		if (MobileControlsWidget)
 		{
 			MobileControlsWidget->AddToPlayerScreen(0);
-
-		} else {
-
-			UE_LOG(LogZelda, Error, TEXT("Could not spawn mobile controls widget."));
-
 		}
-
+		else 
+		{
+			UE_LOG(LogZelda, Error, TEXT("Could not spawn mobile controls widget."));
+		}
 	}
 }
 

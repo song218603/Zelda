@@ -1,20 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AdvancedAnimation.h"
+#include "Core/AdvancedAnimSystem.h"
 
 #define LOCTEXT_NAMESPACE "FAdvancedAnimationModule"
 
 void FAdvancedAnimationModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	
 }
 
 void FAdvancedAnimationModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
-	
+	FAdvancedAnimSystem::Get()->Destroy();
 }
 
 #undef LOCTEXT_NAMESPACE
